@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+    opal:
+        restart: always
+        image: opal:${OPAL_VER}
+        container_name: opal
+        ports:
+            - "8000:8000"
+        networks: 
+            - app-network
+
+        environment:
+            APP_PORT: ${OPAL_PORT}
+            DB_USERNAME: ${MYSQL_USER}
+            DB_PASSWORD: ${MYSQL_PASSWORD}
+            DB_NAME: ${DB_SCHEMA}
+            DB_HOST: ${DB_HOST}
+            DB_PORT: ${MYSQL_INT_PORT}
+            
+        command: 
+          - nodemon
+          - app.js
+
+        volumes:
+            - ${LOG_PATH}/opal_logs:/home/usr/app/log
+            - ./:/home/usr/app
+
+
+# Names our volume
+volumes:
+    logs:
+    
+networks:
+    app-network:
+        driver: bridge            
