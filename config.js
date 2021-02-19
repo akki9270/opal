@@ -29,4 +29,5 @@ exports.SQL = {
 };
 
 exports.SECRET = process.env.SECRET || '9211dc48153ba70a02d0df6414520134';
+exports.JWT_SECRET = process.env.JWT_SECRET || '9211dc48153ba70a02d0df6414520134';
 exports.LOG_FILE_PATH = process.env.LOG_FOLDER||'../log/';

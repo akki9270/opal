@@ -33,13 +33,13 @@ module.exports = function (Sequelize, Types) {
           let salt = uuid.v1();
           this._password = _password;
           this.salt = salt;
-          let hashed_password = Client.encryptPassword(password, this.salt);
+          let hashed_password = this.encryptPassword(password);
           this.hashed_password = hashed_password;
         },
         get() {
           return Client._password;
         },
-        allowNull: false,
+       // allowNull: false,
         validate: { 
             isLongEnough: function (val) {
                 console.log(' val ************* ', val);
@@ -60,19 +60,19 @@ module.exports = function (Sequelize, Types) {
       modelName: "Client",
       instanceMethods: {
           encryptPassword: function(password) {
-              console.log('class Methods ', password)
+              console.log('class Methods ', password, this)
           }
       }
     }
   );
 
-  Client.encryptPassword = function (password,salt) {
+  Client.prototype.encryptPassword = function (password) {
       if (!password) {
         return "";
       }
       try {
         let hashed = crypto
-          .createHmac("sha1", salt)
+          .createHmac("sha1", this.salt)
           .update(password)
           .digest("hex");
           console.log('hashed ', hashed);
@@ -81,7 +81,13 @@ module.exports = function (Sequelize, Types) {
         return "";
       }
     }
-  return Client;
+
+    Client.prototype.isAuthenticate = function(plainText) {
+      return this.encryptPassword(plainText) === this.hashed_password;
+    }
+
+    return Client;
 };
+
 
 //ElementDefinitionOptions
