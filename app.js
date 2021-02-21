@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
@@ -24,7 +25,7 @@ require('./models');
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(bodyparser.json());
-
+app.use(cors())
 app.use("/api", authRoutes);
 exports.startServer = () => {
     app.listen(PORT,() => {
