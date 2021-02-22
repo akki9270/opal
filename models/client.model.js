@@ -11,8 +11,8 @@ module.exports = function (Sequelize, Types) {
         primaryKey: true,
         allowNull: false
       },
-      name: { type: Types.STRING, allowNull: false },
-      family_name: { type: Types.STRING },
+      first_name: { type: Types.STRING, allowNull: false },
+      last_name: { type: Types.STRING, allowNull: false },
       company_name: { type: Types.STRING },
       email: { type: Types.STRING, allowNull: false, unique: true },
       registration_date: { type: Types.TIME },
