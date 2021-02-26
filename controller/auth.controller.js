@@ -57,3 +57,32 @@ exports.LOGOUT = async (req, res) => {
     res.status(400).json({ error: { message: error.message } });
   }
 };
+
+exports.FORGOT_PASSWORD = async (req, res) => {
+  const { email, password } = req.body;
+
+  let user = await models.Client.findOne({
+    attributes: { exclude: ['deletedAt'] },
+    where: { email: email, deletedAt: { [Op.eq]: null } }
+  });
+  if (!user) {
+    return res.status(400).json({
+      error: "User with this email does not exist. Please Singup"
+    })
+  }
+
+
+  if (!user.isAuthenticate(password)) {
+    return res.status(401).json({
+      error: { message: "Email and password does not match." }
+    })
+  };
+
+  // do not send salt in response
+  user.salt = undefined;
+  user.hashed_password = undefined;
+
+  let result = await models.Client.create({ email, password });
+  console.log('forgot result: ', result)
+  res.json(result);
+};
