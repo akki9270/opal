@@ -3,16 +3,15 @@ const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
 const { Op } = require('sequelize');
 
-exports.SIGNUP = async (req, res) => {
-  console.log("req.body ", req.body);
+exports.SIGNUP = async (req, res) => {  
   let client = req.body;
   try {
     let result = await models.Client.create(client);
     result.salt = undefined;
     result.hashed_password = undefined;
-    res.json(result);
+    return res.json(result);
   } catch (error) {
-    res.status(400).json({ error: { message: error.message } });
+    return res.status(400).json({ error: { message: error.message } });
   }
 };
 
@@ -60,7 +59,6 @@ exports.LOGOUT = async (req, res) => {
 
 exports.FORGOT_PASSWORD = async (req, res) => {
   const { email, password } = req.body;
-
   let user = await models.Client.findOne({
     attributes: { exclude: ['deletedAt'] },
     where: { email: email, deletedAt: { [Op.eq]: null } }
@@ -70,19 +68,12 @@ exports.FORGOT_PASSWORD = async (req, res) => {
       error: "User with this email does not exist. Please Singup"
     })
   }
-
-
-  if (!user.isAuthenticate(password)) {
-    return res.status(401).json({
-      error: { message: "Email and password does not match." }
-    })
-  };
-
-  // do not send salt in response
-  user.salt = undefined;
-  user.hashed_password = undefined;
-
-  let result = await models.Client.create({ email, password });
-  console.log('forgot result: ', result)
-  res.json(result);
+  user.hashed_password = user.encryptPassword(password);
+  let userToUpdate = user.dataValues;
+  let result = await models.Client.update(userToUpdate, {
+    where: {
+      email: userToUpdate.email
+    }
+  });
+  return res.json(result);
 };
