@@ -15,6 +15,7 @@ require('./models');
 
 // middlewares
  // prevent CORS problems
+ app.use(cors())
  app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization');
@@ -25,7 +26,7 @@ require('./models');
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(bodyparser.json());
-app.use(cors())
+
 app.use("/api", authRoutes);
 exports.startServer = () => {
     app.listen(PORT,() => {

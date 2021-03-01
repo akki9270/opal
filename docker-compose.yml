@@ -1,11 +1,32 @@
 version: '3.3'
 services:
+    nginx:
+          restart: on-failure:5
+          image: nginx:latest
+          container_name: production_nginx
+          volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+            - ${LOG_PATH}/nginx_logs:/var/log/nginx
+            # - ${SSL_CRT}:/etc/ssl/certs/nginx-selfsigned.crt
+            # - ${SSL_PVTKEY}:/etc/ssl/private/nginx-selfsigned.key
+    
+          depends_on:
+            - opal
+            - react
+          ports:
+           - ${NGINX_HTTP}:80
+          # - ${NGINX_HTTPS}:443
+            # - 82:82
+          networks:
+            - app-network
+
     opal:
         restart: always
         image: opal:${OPAL_VER}
         container_name: opal
         ports:
             - "8000:8000"
+            # - "${MYSQL_INT_PORT}:${MYSQL_EXT_PORT}"
         networks: 
             - app-network
 
@@ -16,15 +37,29 @@ services:
             DB_NAME: ${DB_SCHEMA}
             DB_HOST: ${DB_HOST}
             DB_PORT: ${MYSQL_INT_PORT}
+            JWT_SECRET: ${JWT_SECRET}
             
-        command: 
-          - nodemon
-          - app.js
+        command: "node app.js"
+          # - node
+          # - app.js
 
         volumes:
             - ${LOG_PATH}/opal_logs:/home/usr/app/log
-            - ./:/home/usr/app
+            # - ./:/home/usr/app
 
+
+    react:
+        restart: always
+        image: opalreact:${OPAL_REACT_VER}
+        container_name: opalreact
+        ports:
+            - "3000:3000"
+        networks: 
+            - app-network
+        environment:
+            REACT_APP_SERVER_URL: ${REACT_APP_SERVER_URL}
+
+        command: "npm start"
 
 # Names our volume
 volumes:

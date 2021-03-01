@@ -1,0 +1,25 @@
+@import "~antd/dist/antd.css";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900");
+
+.layout-container {	
+	height: 100vh;
+}
+
+.content-container {    
+  overflow-x: hidden;
+}
+
+.logo {
+  float: left;
+  margin: 0px 16px 0px 0px;
+}
+
+.logo-img {
+  width: 40px;
+  cursor: pointer;
+}
+
+.right-menu {
+  float: right;
+}
