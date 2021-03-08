@@ -14,6 +14,6 @@
 
 	 > ``make run_dev``
 
-    - after this you should be able to see the UI on ``http://localhot`` To stop running service press Ctrl + c
+    - after this you should be able to see the UI on ``http://localhost`` To stop running service press Ctrl + c
 
 	> ``run stop_dev``
