@@ -49,17 +49,15 @@ const Signup = (props) => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
-    if (values) {
-      // props.onSubmitForm({ email, password });
+    if (values) {      
       try {
         setLoading(true)
         const res = await apiInstance('post', '/auth/signup', values);
         const data = get(res, 'data');
         if (data) {
           showNotification('success', 'Signup Successfully!');
-          history.push(ROUTES.MAIN);
-        }
-        setLoading(false);
+          doLogin(values)
+        }        
       } catch (error) {
         if (error && error.message) {
           showNotification('error', error.message);
@@ -68,6 +66,29 @@ const Signup = (props) => {
       }
     }
   };
+
+  const doLogin = async(values) => {
+    if (values) {
+      try {
+        const { email, password } = values;        
+        setLoading(true);
+        const res = await apiInstance('post', '/auth/signin', { email, password });
+        const data = get(res, 'data');
+        if (data && data.user && data.token) {
+          localStorage.setItem('user', JSON.stringify(data.user));
+          localStorage.setItem('token', data.token);
+          showNotification('success', 'Login Successfully!');
+          history.push(ROUTES.MAIN);
+        }        
+      } catch (error) {
+        if (error && error.message) {
+          showNotification('error', error.message);
+        }        
+      } finally {
+        setLoading(false);
+      }
+    }
+  }
 
   return (
     <Row type="flex" justify="center" align="middle" style={{ minHeight: '100%' }}>

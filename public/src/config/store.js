@@ -17,8 +17,6 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 );
 
-console.log('mainSaga: ', mainSaga)
-
 sagaMiddleware.run(mainSaga);
 
 export default store;

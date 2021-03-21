@@ -5,6 +5,7 @@ import Dashboard from '../modules/Dashboard';
 import Profile from 'src/modules/Profile';
 import Signup from 'src/modules/auth/Signup';
 import Login from 'src/modules/auth/Login';
+import OnlineCalculation from 'src/modules/online-calculation/pages/OnlineCalculation';
 import { ROUTES } from 'src/common/constants';
 import { isAuthenticated } from '../helpers'
 
@@ -19,7 +20,7 @@ const ContentRoutes = () => {
       <Route exact path={ROUTES.LOGIN} component={Login} />
       <Route path={ROUTES.PROFILE} component={Profile} />
       {isAuthenticated() ? (
-        <Route exact path={ROUTES.CALCULATION} component={Error404} />
+        <Route exact path={ROUTES.CALCULATION} component={OnlineCalculation} />
       ) : (
           <Redirect to="/login" />
         )}

@@ -29,6 +29,8 @@ public/npm-debug.log*
 public/yarn-debug.log*
 public/yarn-error.log*
 
+node_modules
+
 .env
 config.env
 logs/
