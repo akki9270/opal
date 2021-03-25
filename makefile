@@ -37,7 +37,23 @@ build_all: ## Build the container
 	docker build -t $(FRONTEND_APP_NAME) $(FRONTEND_APP_DIRECTORY)
 	docker build -t $(BACKEND_APP_NAME) $(BACKEND_APP_DIRECTORY)
 
-run_dev: ## Run Dev Server
+# To Stop and clear containers and delete all images
+clear_all: stop_container remove_container clear_images
+
+# stop containers
+stop_container:
+	docker stop $$(docker ps -a -q --filter "name=opal")
+
+#remove containers
+remove_container:
+	docker rm $$(docker ps -a -q --filter "name=opal")
+
+#remove docker images
+clear_images:
+	docker rmi $$(docker images "opal_*" -q)
+
+## Run Dev Server
+run_dev: 
 	docker-compose up
 
 stop_dev:

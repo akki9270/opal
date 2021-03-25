@@ -22,11 +22,13 @@ services:
 
     opal:
         restart: always
-        image: opal:${OPAL_VER}
+        build: 
+            context: ./backend
+        # image: opal:${OPAL_VER}
         container_name: opal
         ports:
-            - "8000:8000"
-            # - "${MYSQL_INT_PORT}:${MYSQL_EXT_PORT}"
+            # - "8000:8000"
+            - "${MYSQL_INT_PORT}:${MYSQL_EXT_PORT}"
         networks: 
             - app-network
 
@@ -39,28 +41,32 @@ services:
             DB_PORT: ${MYSQL_INT_PORT}
             JWT_SECRET: ${JWT_SECRET}
             
-        command: "node app.js"
+        command: "nodemon app.js"
           # - node
           # - app.js
 
         volumes:
             - ${LOG_PATH}/opal_logs:/home/usr/app/log
-            # - ./:/home/usr/app
+            - ./backend:/home/usr/app
 
 
     react:
         restart: always
-        image: opalreact:${OPAL_REACT_VER}
+        build: 
+            context: ./public
+        # image: opalreact:${OPAL_REACT_VER}
         container_name: opalreact
-        ports:
-            - "3000:3000"
+        # ports:
+            # - "3000:3000"
         networks: 
             - app-network
         environment:
             REACT_APP_SERVER_URL: ${REACT_APP_SERVER_URL}
+            CHOKIDAR_USEPOLLING: "true"
 
         command: "npm start"
-
+        volumes: 
+            -   ./public/src:/home/usr/app/src
 # Names our volume
 volumes:
     logs:

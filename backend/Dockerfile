@@ -1,4 +1,4 @@
-FROM node:8.10.0-alpine
+FROM node:12.21.0-alpine3.12
 
 # Create app directory
 #WORKDIR /Users/mac/Documents/DemoProjects/clear_docker_v1
@@ -24,8 +24,9 @@ RUN pwd
 #COPY bower.json ./
 #COPY .bowerrc ./
 
-#RUN bower install ./
-RUN npm install --
+#RUN NPM install ./
+# RUN npm config set unsafe-perm true
+RUN npm install
 RUN npm install -g nodemon
 # If you are building your code for production
 # RUN npm ci --only=production
