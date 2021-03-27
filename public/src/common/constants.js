@@ -21,6 +21,7 @@ export const REGEX = {
   EMAIL: /^[a-z0-9.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
   AMOUNT: /^\d+$|^\d+\.\d*$/,
   OPTIONALNEGATIVEAMOUNT: /^[-]?\d+$|^[-]?\d+\.\d*$/,
-  NUMBER: /^\d+$/,
-  DECIMAL_NUMBER: /^-?[0-9]\d*(\.\d+)?$/,
+  // NUMBER: /^\d+$/,  
+  NUMBER: /^-?[0-9]*(?:[0-9]+)?$/,  
+  DECIMAL_NUMBER: /^-?[0-9]*(?:\.[0-9]+)?$/,
 };
