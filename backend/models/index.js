@@ -82,7 +82,7 @@ async function init_sequelize() {
     }
   });
   db.sequelize = sequelize;
-  let connect = await sequelize.sync({force: true});
+  let connect = await sequelize.sync({});
 
   console.log('connet ');
   app.startServer();

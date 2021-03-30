@@ -44,7 +44,7 @@ exports.SIGNIN = async (req, res) => {
   // persist token as 't' in cookie with expiry date
   // res.cookie("t", token);
   return res.status(200)
-    .cookie("t", token, { expires: new Date(Date.now() + 90000) })
+    .cookie("connect.sid", token, { expires: new Date(Date.now() + 90000) })
     .json({ token, user });
 }
 

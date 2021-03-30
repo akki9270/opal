@@ -4,7 +4,8 @@ const cors = require('cors');
 const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const authRoutes = require('./routes/auth.routes')
+const authRoutes = require('./routes/auth.routes');
+const calculationRoutes = require('./routes/calculation.routes');
 dotenv.config('dev');
 const { TIMELOGGER } = require('./winston');
 const PORT = process.env.PORT || 8075;
@@ -28,6 +29,7 @@ app.use(morgan('dev'));
 app.use(bodyparser.json());
 
 app.use("/api", authRoutes);
+app.use("/api", calculationRoutes);
 exports.startServer = () => {
     app.listen(PORT,() => {
         console.log(`Running on port ${PORT}`);

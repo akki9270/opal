@@ -28,7 +28,7 @@ services:
         container_name: opal
         ports:
             # - "8000:8000"
-            - "${MYSQL_INT_PORT}:${MYSQL_EXT_PORT}"
+            - ${MYSQL_INT_PORT}:${MYSQL_EXT_PORT}
         networks: 
             - app-network
 
@@ -40,6 +40,8 @@ services:
             DB_HOST: ${DB_HOST}
             DB_PORT: ${MYSQL_INT_PORT}
             JWT_SECRET: ${JWT_SECRET}
+            IMPORT_FILE_PATH: ${IMPORT_FILE_PATH}
+            IMPORT_FILE_EXTENSION: ${IMPORT_FILE_EXTENSION}
             
         command: "nodemon app.js"
           # - node
