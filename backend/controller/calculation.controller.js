@@ -48,7 +48,7 @@ exports.CALCULATIONS = (req, res) => {
         newFile.write(dataToWrite);
         return res.send("success");
     } catch (error) {
-        return res.status(500).send("Error", error);
+        return res.status(500).send({"Error": error});
     }
 }
 
@@ -213,6 +213,9 @@ arrangeLenseValue = (onlyRight, onlyLeft, Both, data) => {
 }
 
 calculateDynamicValue = (data) => {
+    if (!data) {
+        return null;
+    }
     let meanPower;
     let _SPH = data[REPLACEMENT_VARS.SPH];
     let _CYL = data[REPLACEMENT_VARS.CYL];

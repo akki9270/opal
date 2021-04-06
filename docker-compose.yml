@@ -26,9 +26,9 @@ services:
             context: ./backend
         # image: opal:${OPAL_VER}
         container_name: opal
-        ports:
+        # ports:
             # - "8000:8000"
-            - ${MYSQL_INT_PORT}:${MYSQL_EXT_PORT}
+            # - ${MYSQL_INT_PORT}:${MYSQL_EXT_PORT}
         networks: 
             - app-network
 
@@ -50,6 +50,7 @@ services:
         volumes:
             - ${LOG_PATH}/opal_logs:/home/usr/app/log
             - ./backend:/home/usr/app
+            - /home/usr/app/node_modules
 
 
     react:
