@@ -1,18 +1,38 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_ROOT = process.env.REACT_APP_SERVER_URL;
+export const apiInstance = axios.create({
+  baseURL: process.env.REACT_APP_SERVER_URL,
+  timeout: 30000,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+    'Access-Control-Allow-Headers':
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  },
+});
 
-export const apiInstance = (method, url, payload = null, headers = 1) => {
-  let requestData = {
-    method: method,
-    url: API_ROOT + url
-  }
-  if (payload)
-    requestData.data = payload;
-  // if (headers === 1)
-  //   requestData.headers = {
-  //     'Authorization': 'Bearer ' + localStorage.getItem('token')
-  //   };
-  console.log('requestData: ', requestData)  
-  return axios(requestData);
-}
+apiInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token')
+    if(token){
+      config.headers.Authorization = 'Bearer ' + localStorage.getItem('token');
+    }
+    return config;
+  },
+  (error) => {
+    console.log('Error reuest: ', error);
+    Promise.reject(error);
+  },
+);
+
+apiInstance.interceptors.response.use(
+  (response) => {    
+    const { headers, data } = response;
+    console.log('response: ', response);  
+    return response;
+  },
+  (error) => {
+    console.log('Error response: ', JSON.stringify(error));
+    return Promise.reject(error);
+  },
+);

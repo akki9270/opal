@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Row } from 'antd';
 import { useSelector } from 'react-redux';
-import { startCase, toLower, includes } from 'lodash'
+import { startCase, toLower, includes } from 'lodash';
 import SummaryData from './SummaryData';
 
 const ThirdStep = (props) => {

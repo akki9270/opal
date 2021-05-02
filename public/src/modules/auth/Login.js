@@ -42,7 +42,11 @@ const Login = (props) => {
         const { email, password } = values;
         // props.onSubmitForm({ email, password });
         setLoading(true);
-        const res = await apiInstance('post', '/auth/signin', { email, password });
+        // const res = await apiInstance('post', '/auth/signin', { email, password });
+        const res = await apiInstance('/auth/signin', {
+          method: 'post',
+          data: { email, password },
+        })
         const data = get(res, 'data');
         if (data && data.user && data.token) {
           localStorage.setItem('user', JSON.stringify(data.user));

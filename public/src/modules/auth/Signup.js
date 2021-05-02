@@ -52,7 +52,11 @@ const Signup = (props) => {
     if (values) {      
       try {
         setLoading(true)
-        const res = await apiInstance('post', '/auth/signup', values);
+        // const res = await apiInstance('post', '/auth/signup', values);
+        const res = await apiInstance('/auth/signup', {
+          method: 'POST',
+          data: values,
+        })
         const data = get(res, 'data');
         if (data) {
           showNotification('success', 'Signup Successfully!');

@@ -124,7 +124,11 @@ const OnlineCalculation = (props) => {
         setLoading(true)
         const finalData = await modifyCalculationData(formData);
         console.log('--finalData: ', finalData); 
-        const res = await apiInstance('post', '/online-calculation', finalData);
+        // const res = await apiInstance('post', '/online-calculation', finalData);
+        const res = await apiInstance('/online-calculation', {
+          method: 'POST',
+          data: finalData,
+        })
         const data = get(res, 'data');
         if (data) {
           showNotification('success', 'Calcualtion Successfully!');

@@ -92,7 +92,11 @@ const ForgotPasswordModal = (props) => {
     try {
       const { email, password } = values;
       setLoading(true);
-      const res = await apiInstance('post', '/auth/forgot-password', { email, password });
+      // const res = await apiInstance('post', '/auth/forgot-password', { email, password });
+      const res = await apiInstance('/auth/forgot-password', {
+        method: 'POST',
+        data: { email, password },
+      })
       const data = get(res, 'data');
       showNotification('success', 'Password successfully updated!');
       setLoading(false);
