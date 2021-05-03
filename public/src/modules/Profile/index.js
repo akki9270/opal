@@ -40,7 +40,10 @@ const Profile = (props) => {
       if (values) {
         const cloneValues = cloneDeep(values);
         setLoading(true);
-        const res = await apiInstance('post', '/update-user', cloneValues);
+        const res = await apiInstance('/update-user',{
+          method: 'POST',
+          data: cloneValues
+        });
         const data = get(res, 'data');
         if (data && data.user) {
           localStorage.setItem('user', JSON.stringify(data.user));
